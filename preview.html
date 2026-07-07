@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ModernSetups Documentation Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Marked.js for markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  
+  <!-- Prism.js for code highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="prism-theme">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #f59e0b;
+      --accent-rgb: 245, 158, 11;
+      --accent-secondary: #ef4444;
+      --border-color: #334155;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --sidebar-width: 280px;
+      --toc-width: 220px;
+      --glow-color: rgba(245, 158, 11, 0.15);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --accent: #d97706;
+      --accent-rgb: 217, 119, 6;
+      --accent-secondary: #dc2626;
+      --border-color: #e2e8f0;
+      --glow-color: rgba(217, 119, 6, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* --- Sidebar --- */
+    aside.sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand-section {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: radial-gradient(circle, var(--accent), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .search-wrapper {
+      padding: 16px 24px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 38px;
+      border-radius: 8px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      outline: none;
+      font-size: 0.875rem;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow-color);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 36px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      pointer-events: none;
+    }
+
+    .nav-menu {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+    }
+
+    .nav-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin: 20px 0 8px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background-color: var(--glow-color);
+      color: var(--accent);
+      font-weight: 600;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* --- Theme Toggle & Footer inside sidebar --- */
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 8px;
+      border-radius: 6px;
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .github-link {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    .github-link:hover {
+      color: var(--text-primary);
+    }
+
+    /* --- Main Container --- */
+    main.main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-primary);
+    }
+
+    header.top-bar {
+      height: 70px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background-color: var(--bg-secondary);
+    }
+
+    .breadcrumbs {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .breadcrumbs span.separator {
+      color: var(--border-color);
+    }
+
+    .quick-stats {
+      display: flex;
+      gap: 16px;
+    }
+
+    .stat-badge {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* --- Content Body --- */
+    .content-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .markdown-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 60px;
+      scroll-behavior: smooth;
+    }
+
+    .markdown-content {
+      max-width: 820px;
+      margin: 0 auto;
+      line-height: 1.625;
+      font-size: 1.05rem;
+    }
+
+    /* Markdown Typography & Elements Styling */
+    .markdown-content h1 {
+      font-family: var(--font-heading);
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .markdown-content h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .markdown-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .markdown-content p {
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      opacity: 0.9;
+    }
+
+    .markdown-content ul, .markdown-content ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .markdown-content li {
+      margin-bottom: 8px;
+    }
+
+    /* Tables */
+    .markdown-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 0.95rem;
+    }
+
+    .markdown-content th, .markdown-content td {
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .markdown-content th {
+      background-color: var(--bg-secondary);
+      font-weight: 600;
+    }
+
+    .markdown-content tr:nth-child(even) {
+      background-color: var(--bg-secondary);
+      opacity: 0.95;
+    }
+
+    /* Code Blocks */
+    .markdown-content code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      background-color: var(--bg-secondary);
+      padding: 3px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+
+    .markdown-content pre {
+      background-color: #1e293b !important;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+      position: relative;
+      border: 1px solid var(--border-color);
+    }
+
+    .markdown-content pre code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      color: #f8fafc;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .markdown-content pre:hover .copy-btn {
+      opacity: 1;
+    }
+
+    .copy-btn:hover {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    /* Alerts */
+    .markdown-content blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      border-left: 4px solid var(--accent);
+      background-color: var(--bg-secondary);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* --- Right Sidebar: Table of Contents --- */
+    .toc-container {
+      width: var(--toc-width);
+      border-left: 1px solid var(--border-color);
+      padding: 40px 24px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      display: none;
+    }
+
+    @media (min-width: 1200px) {
+      .toc-container {
+        display: block;
+      }
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .toc-list {
+      list-style-type: none;
+    }
+
+    .toc-item {
+      margin-bottom: 8px;
+    }
+
+    .toc-link {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: block;
+      line-height: 1.4;
+    }
+
+    .toc-link:hover {
+      color: var(--text-primary);
+    }
+
+    .toc-link.h3 {
+      padding-left: 12px;
+      border-left: 1px solid var(--border-color);
+    }
+
+    /* --- Search Results Portal --- */
+    .search-results-portal {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 24px;
+      right: 24px;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 20;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-result-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    .search-result-item:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    .search-result-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    .search-result-snippet {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .no-results {
+      padding: 16px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand-section">
+      <div class="brand-logo">
+        <img src="static/img/logo.png" alt="Logo" onerror="this.style.display='none'">
+        <i class="fa-solid fa-swords" style="color: white; font-size: 1.2rem;"></i>
+      </div>
+      <div class="brand-name">ModernSetups Docs</div>
+    </div>
+
+    <div class="search-wrapper">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" class="search-input" id="search-input" placeholder="Search docs...">
+      <div class="search-results-portal" id="search-portal"></div>
+    </div>
+
+    <nav class="nav-menu" id="nav-menu">
+      <!-- Generated Dynamically -->
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Theme">
+        <i class="fa-solid fa-sun" id="theme-icon"></i>
+      </button>
+      <a href="https://github.com/Modern-Setups/ModernDocs" target="_blank" class="github-link" title="GitHub Repo">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="breadcrumbs" id="breadcrumbs">
+        <span>Docs</span>
+        <span class="separator">/</span>
+        <span id="breadcrumb-current">Home</span>
+      </div>
+      <div class="quick-stats">
+        <div class="stat-badge">
+          <i class="fa-solid fa-cube"></i> Documentation Hub
+        </div>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <div class="markdown-container" id="markdown-container">
+        <div class="markdown-content" id="markdown-content">
+          <!-- Rendered Document -->
+        </div>
+      </div>
+      <div class="toc-container">
+        <div class="toc-title">On this page</div>
+        <div class="toc-list" id="toc-list">
+          <!-- Table of Contents -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Embedded Docs Content (Bypasses CORS entirely)
+    const docsData = {
+      "index": {
+        "title": "📚 ModernSetups Documentation Hub",
+        "category": "Home",
+        "content": `
+# 📚 ModernSetups Documentation Hub
+
+Welcome to the centralized documentation hub for **ModernSetups** plugins and services. Here, you will find comprehensive setup guides, references, and wikis for our premium Spigot/Paper plugins.
+
+---
+
+## 🔌 Available Plugins
+
+Select a plugin below to explore its documentation:
+
+### ⚔️ [ModernDuels](#modernduels/intro)
+A high-fidelity standalone duels plugin replicating PvP Legacy's kit editor, dynamic arenas, and ranked matchmaking.
+* [💾 Installation & Storage](#modernduels/getting-started/installation)
+* [🏟️ Arena Setup Guide](#modernduels/getting-started/arena-setup)
+* [🗡️ Kit Editor & Custom Layouts](#modernduels/features/kit-editor)
+* [⚖️ Matchmaking & ELO Queues](#modernduels/features/matchmaking)
+
+---
+
+## 💬 Support & Community
+
+Need help with configurations or licenses? Get in touch with us:
+* **Discord Community**: [Join our Discord](https://discord.gg/modernsetups)
+* **Official Website**: [modernsetups.net](https://modernsetups.net)
+`
+      },
+      "modernduels/intro": {
+        "title": "🚀 Introduction & Overview",
+        "category": "ModernDuels",
+        "content": `
+# 🚀 ModernDuels Overview
+
+**ModernDuels** is a high-fidelity standalone Paper/Purpur (1.21.x) Minecraft plugin that replicates **PvP Legacy's** custom kit editor, competitive duels, and isolated arena worlds. Built with high performance and smooth experiences in mind, it is optimized for modern Minecraft PvP servers.
+
+---
+
+## ✨ Core Features
+
+* **Legacy-Style Kit Editor**: An interactive, multi-grid chest GUI allowing players to preview their entire kit layout (inventory, hotbar, armor, and offhand) and customize it item-by-item down to enchants and custom potion effects.
+* **Dynamic Arena Rollbacks**: Arenas are isolated instances. Cloned copies of schematic templates are loaded and pasted on the fly using FastAsyncWorldEdit (FAWE) and automatically destroyed on match completion.
+* **Ranked & Matchmaking Systems**: Ranked ELO matchmaking queues with expanding search windows, unranked public queues, and custom kit queues.
+* **Per-Player Settings**: Persistent menus for toggling sidebar scoreboards, TAB layouts, player visibility in the lobby, and duel request allowances.
+* **Deep Integrations**: Native support for Vault Economy, Vulcan Anti-Cheat, PlaceholderAPI, and popular combat loggers.
+* **Staff Command Suite**: Comprehensive admin control panels (\`/arena manage\`) and Vanish Mod Mode (\`/duel mod\`).
+
+---
+
+## 🛠️ Technology Stack
+
+ModernDuels is engineered on modern APIs:
+* **Minecraft Version Support**: Paper or Purpur 1.21.x (Java 21).
+* **World Processing**: FastAsyncWorldEdit (FAWE) for lightning-fast block operations.
+* **Formatting Engine**: MiniMessage for modern, hex-gradient rich chat and GUI styling.
+* **Database Backend**: Multi-storage structure supporting flat-file JSON storage or external MySQL/MariaDB database server with HikariCP connection pooling.
+* **Economy Support**: Vault API for wages and betting pots.
+* **Anti-Cheat Support**: Vulcan API integration for automatic alerts and forfeits.
+`
+      },
+      "modernduels/getting-started/installation": {
+        "title": "💾 Installation & Storage",
+        "category": "ModernDuels - Getting Started",
+        "content": `
+# 💾 Installation & Storage Setup
+
+Get ModernDuels running on your server in minutes. Follow this guide to install the plugin and choose your preferred database backend.
+
+---
+
+## 🚀 Basic Installation
+
+1. Download the \`ModernDuels.jar\` file.
+2. Place the jar file inside your server's \`plugins/\` directory.
+3. Start (or restart) the Minecraft server.
+4. ModernDuels will generate its default files and folder structures inside \`plugins/ModernDuels/\`.
+5. Verify the installation by running \`/duel reload\`. If the prefix and help message appear, you are ready!
+
+---
+
+## 🗄️ Database Storage Configuration
+
+By default, ModernDuels saves all custom kits and player statistics locally in JSON flat-files under \`plugins/ModernDuels/data/\`. For networks or multi-server setups, you can connect the plugin to a MySQL or MariaDB database.
+
+### Setting up MySQL
+
+1. Open \`plugins/ModernDuels/config.yml\`.
+2. Locate the \`database:\` section.
+3. Change \`type: "FILE"\` to \`type: "MYSQL"\`.
+4. Fill in your connection details under the \`mysql:\` config section:
+
+\`\`\`yaml
+database:
+  type: "MYSQL"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "modernduels"
+    username: "root"
+    password: "YOUR_SECURE_PASSWORD"
+    ssl: true
+    pool:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+\`\`\`
+
+5. Restart the server. ModernDuels will automatically establish the HikariCP connection pool and initialize the database tables:
+   * \`modern_duels_kits\`: Stores custom player kit layouts.
+   * \`modern_duels_stats\`: Stores wins, losses, ELO, kills, and deaths.
+
+---
+
+## 🌎 Lobby Configuration
+
+Set up your lobby world and coordinates where players return after completing or spectating matches.
+
+Open \`config.yml\` and define your lobby world spawn coordinates:
+
+\`\`\`yaml
+lobby:
+  world: "lobby"
+  spawn:
+    x: 100.5
+    y: 64.0
+    z: -50.5
+    yaw: 90.0
+    pitch: 0.0
+  heal-on-teleport: true
+  feed-on-teleport: true
+  extinguish-fire-on-teleport: true
+  clear-potion-effects-on-teleport: true
+\`\`\`
+
+When players exit a match, their inventories will be restored to their pre-match state, all active potion effects will be cleared, and their health and food bars will be maxed.
+`
+      },
+      "modernduels/getting-started/arena-setup": {
+        "title": "🏟️ Arena Setup Guide",
+        "category": "ModernDuels - Getting Started",
+        "content": `
+# 🏟️ Arena Setup Guide
+
+ModernDuels utilizes a dynamic arena system. It allocates non-overlapping coordinate offsets inside a single persistent void world to host active matches concurrently. This setup prevents matches from interfering with one another and deletes the blocks on completion to ensure a clean state.
+
+---
+
+## 🛠️ Step-by-Step Arena Setup
+
+Follow these steps to register and set up a new arena:
+
+### Step 1: Add a Schematic Template
+1. Create or download an arena build schematic.
+2. Put the \`.schem\` or \`.schematic\` file in your server's templates folder (default: \`plugins/ModernDuels/arena-templates/\`).
+   * *Example*: \`plugins/ModernDuels/arena-templates/desert_canyon.schem\`
+
+### Step 2: Register the Arena
+Run the create command to link a unique arena name to your schematic:
+\`\`\`bash
+/arena create DesertDuel desert_canyon
+\`\`\`
+
+### Step 3: Enter Setup Mode
+Run the setup command to load a temporary instance of the arena:
+\`\`\`bash
+/arena setup DesertDuel
+\`\`\`
+*You will be teleported to a temporarily loaded setup clone of the arena.*
+
+### Step 4: Configure Spawn Locations
+Stand at the exact location where Player 1 should spawn and run:
+\`\`\`bash
+/arena setspawn1 DesertDuel
+\`\`\`
+
+Next, stand at the location where Player 2 should spawn and run:
+\`\`\`bash
+/arena setspawn2 DesertDuel
+\`\`\`
+*Note: These spawn points are calculated relative to the schematic origin, which means they will scale properly to any offset paste coordinate.*
+
+### Step 5: Save and Exit Setup
+Complete the setup by running:
+\`\`\`bash
+/arena done
+\`\`\`
+*The plugin will save coordinates to \`arenas.yml\`, teleport you back to the lobby, and safely unload the setup instance.*
+
+---
+
+## ⚙️ Arena Management & Options
+
+Administrators can toggle arena parameters inside \`arenas.yml\` or via \`/arena manage\`:
+
+\`\`\`yaml
+arenas:
+  DesertDuel:
+    template: "desert_canyon"
+    allow-block-breaking: false   # Disable block breaking (e.g. for Node/Standard PvP)
+    allow-block-placing: false    # Disable block placing
+    enabled: true                 # Toggle arena availability
+    spawn1:
+      x: 10.5
+      y: 65.0
+      z: 0.5
+      yaw: -90.0
+      pitch: 0.0
+    spawn2:
+      x: -10.5
+      y: 65.0
+      z: 0.5
+      yaw: 90.0
+      pitch: 0.0
+\`\`\`
+
+### Void World Modes
+
+In \`config.yml\`, you can customize how the plugin hosts these worlds:
+* **SHARED (Default)**: A single void world (\`Duels Void\`) is used. Arenas are pasted at offsets like \`X=0\`, \`X=300\`, \`X=600\`, etc.
+* **PER_TEMPLATE**: Creates separate void worlds for different templates (e.g., \`Duels Void - desert_canyon\`). Useful if you need separate biomes or custom environmental rules per arena type.
+`
+      },
+      "modernduels/features/kit-editor": {
+        "title": "🗡️ Kit Editor & Customs",
+        "category": "ModernDuels - Core Features",
+        "content": `
+# 🗡️ Custom Kit Editor
+
+ModernDuels includes a custom, interactive Chest GUI Kit Editor modeled directly after **PvP Legacy**. Players can design, configure, name, share, and delete their own custom kit layouts.
+
+---
+
+## 🎒 Editor Interface & Layout
+
+Right-clicking the **Kit Editor (Book)** item in the lobby or running \`/kit\` opens the Kit List menu. From here, players can click to edit or create a custom kit slot.
+
+Inside the editor GUI:
+1. **Grid Inventory Preview**: Displays a 1-to-1 layout of the player's inventory, hotbar, offhand slot, and armor slots.
+2. **Item Categories Picker**: Click any slot in the preview to select items from categories:
+   * ⚔️ Swords & Axes
+   * 🏹 Bows, Crossbows, and Projectiles
+   * 🛡️ Armor pieces (Helmets, Chestplates, Leggings, Boots)
+   * 🧱 Building Blocks & Obstacles
+   * 🧪 Potions (Splash, Lingering, and Drinking)
+   * 🍎 Consumables (Golden Apples, Food, Stews)
+3. **Item Customizer**: Shift-clicking or right-clicking items inside the editor opens property configurators:
+   * **Enchantment Editor**: Add or remove enchantments on the item and set custom levels up to the server configured limit.
+   * **Potion Editor**: Set potion type, duration, and strength amplifiers.
+
+---
+
+## 📑 Sharing Kits
+
+Players can share their designs with other players via share codes:
+* **Exporting**: Click the "Share Kit" option or run \`/kit share <kitName>\`. This generates an alphanumeric, temporary share code (e.g. \`MD-A7B8C9\`).
+* **Importing**: Run \`/kit import <code_here>\` to redeem the share code directly into one of their available kit slots.
+
+---
+
+## 🔒 Custom Kit Limits
+
+Set permissions in your permission manager (like LuckPerms) to restrict the number of custom kits a player can create:
+
+| Permission | Description |
+| :--- | :--- |
+| \`modernduels.kit.create\` | Grants ability to create custom kits. |
+| \`modernduels.kit.share\` | Grants ability to share or import codes. |
+| \`modernduels.kit.limit.5\` | Limits player to 5 custom kit slots (Default). |
+| \`modernduels.kit.limit.10\` | Limits player to 10 custom kit slots. |
+| \`modernduels.kit.limit.25\` | Limits player to 25 custom kit slots. |
+| \`modernduels.kit.limit.unlimited\` | Grants unlimited custom kit slots. |
+
+---
+
+## 🛠️ Editor Settings
+
+Admins can modify editor limits under the \`kits:\` section of \`config.yml\`:
+
+\`\`\`yaml
+kits:
+  default-max-kits: 5              # Default limit if no permission node is set
+  allow-sharing: true              # Toggle code sharing (/kit share)
+  share-code-expiry-seconds: 600   # Expiry time for generated share codes
+  max-enchant-level: -1            # Maximum enchantment level (-1 for vanilla maximums)
+\`\`\`
+`
+      },
+      "modernduels/features/matchmaking": {
+        "title": "⚖️ Matchmaking & ELO",
+        "category": "ModernDuels - Core Features",
+        "content": `
+# ⚖️ Matchmaking & ELO Queues
+
+ModernDuels includes a matchmaking system that supports unranked challenges, ranked matches with ELO ratings, and custom-designed kits.
+
+---
+
+## 🏎️ Matchmaking Modes
+
+1. **Ranked Queue (\`/duel queue\`):**
+   * Players compete using preset standard kit configurations.
+   * Modifies player **ELO** scores based on results.
+   * Search ranges expand over time if a match isn't found immediately.
+2. **Unranked Queue**:
+   * Casual matchmaking for practice matches using standard kits. No ELO stakes.
+3. **Custom Kit Matches**:
+   * Send a challenge to a specific player via \`/duel <player>\` and choose a custom kit layout you designed in the editor.
+
+---
+
+## 📈 Ranked ELO Logic
+
+The plugin utilizes a mathematical **ELO formula** to compute ranking adjustments on match completion:
+* **Starting ELO**: Configurable (Default: \`1000\` points).
+* **K-Factor**: The maximum possible change in points per match (Default: \`32\`).
+* **Volatile Multiplier**: Larger ELO gaps yield bigger gains/losses for upsets.
+
+### Ranked Config in \`config.yml\`:
+
+\`\`\`yaml
+ranked:
+  enabled: true
+  # "GLOBAL" (one ELO score for all kits) or "PER_KIT" (separate ELO per kit)
+  mode: "GLOBAL"
+  starting-elo: 1000
+  k-factor: 32
+  queue:
+    initial-elo-range: 100         # Initial search threshold (+/- ELO)
+    elo-range-expansion: 50        # ELO expansion added per tick
+    max-elo-range: 500             # Cap on how far search threshold can expand
+    tick-interval: 5               # Search queue poll rate (seconds)
+\`\`\`
+
+---
+
+## 🛑 Match Queue Locks & Priority
+
+* **Inventory Locking**: When a player joins a matchmaking queue, their inventory is cleared and replaced with a single **Barrier** item in slot 8. Right-clicking this barrier allows the player to cancel search and leave the queue.
+* **Simultaneous Limit Queue**: If the server reaches the maximum allowed concurrent matches, new matches enter a priority waiting queue.
+* **Priority Nodes**: VIP players can bypass or get higher priority in the waiting queue using permission nodes:
+  * \`modernduels.bypass.limit\`: Bypass the queue limit entirely.
+  * \`modernduels.priority.<level>\`: Assigns a numeric priority weight (higher numbers get moved to the front of the queue first).
+`
+      },
+      "modernduels/features/parties": {
+        "title": "👥 Parties & Team Duels",
+        "category": "ModernDuels - Core Features",
+        "content": `
+# 👥 Parties & Team Duels
+
+ModernDuels includes a party management system allowing groups of players to team up, queue together, and challenge other groups to multi-player duels (2v2, 3v3, etc.).
+
+---
+
+## ⚙️ Party Commands
+
+Players can create and manage their party using \`/party\` (aliases: \`/p\`, \`/team\`):
+
+* \`/party create\` - Start a new party. The creator becomes the leader.
+* \`/party invite <player>\` - Invite another player to join your party (invites expire in 60s).
+* \`/party accept <leader>\` - Accept an active party invitation.
+* \`/party leave\` - Leave your current party. If the leader leaves, the party is disbanded.
+* \`/party kick <player>\` - Kick a member from the party (Leader only).
+* \`/party disband\` - Disband the party and reset all members (Leader only).
+* \`/party list\` - Display a list of current party members.
+
+---
+
+## ⚔️ Team Duel Mechanics
+
+When two party leaders challenge each other or accept a duel:
+1. **Roster Inclusion**: All members in both parties are pulled into the duel match.
+2. **Team Assignments**: Members of Party 1 are placed on Team 1; members of Party 2 are placed on Team 2.
+3. **Friendly Fire Prevention**: Teammates cannot damage each other during active combat. Friendly projectile hits and sword swipes are automatically blocked.
+4. **Round Elimination**: A round ends when all members of one team are eliminated. The surviving team receives the round point.
+5. **Team Victory**: The team that reaches the required target wins (e.g. 2 round wins in a Best of 3 format) wins the overall match.
+6. **Lobby Return**: All party members are teleported back to the lobby together on match end.
+`
+      },
+      "modernduels/integration/hooks": {
+        "title": "🔌 Integrations & Hooks",
+        "category": "ModernDuels - Integrations",
+        "content": `
+# 🔌 Integrations & Hooks
+
+ModernDuels includes hooks for popular Bukkit/Paper plugins to expand functionality, manage economy bets, block cheat activity, and expose placeholders.
+
+---
+
+## 💰 Vault Economy (Betting)
+
+If **Vault** is enabled, players can wager money on duel challenges.
+
+### Rules of Betting:
+1. **Wager Creation**: Challenges can specify a bet amount (e.g. \`/duel <player> [kit] [rounds] [bet]\`).
+2. **Verification**: The plugin checks both players' account balances on duel acceptance and deducts the bet amount.
+3. **Reward Pot**: The winner receives the combined pot, minus a server tax percentage.
+4. **Draw/Refund**: If the match ends in a draw or the server crashes, the bets are refunded to both players automatically.
+5. **Disk Ledger**: Active bets are logged to a local disk ledger (\`bets.yml\`) on match start. If the server crashes or restarts mid-match, the ledger ensures bets are refunded when the plugin starts up.
+
+\`\`\`yaml
+economy:
+  betting:
+    min-bet: 0.0
+    max-bet: 10000.0
+    tax-percentage: 5.0            # 5% server tax deducted from winner reward
+\`\`\`
+
+---
+
+## 🛡️ Vulcan Anti-Cheat
+
+ModernDuels hooks into the \`Vulcan Anti-Cheat API\` to monitor players for cheating during matches.
+
+* **Alert Monitoring**: Cheating alerts triggered by players in a duel are tracked.
+* **Auto-Forfeit**: Staff can configure thresholds. If a player exceeds the cheat violation threshold during a match, they are automatically disqualified, forfeiting the match to their opponent.
+
+---
+
+## 🥊 Combat Tag Integrations
+
+To prevent players from entering duels during active wilderness combat or using duels to escape danger, ModernDuels hooks into:
+* **CombatLogX**
+* **PvPManager**
+* **DeluxeCombat**
+* **CombatTagPlus**
+
+### Features:
+* **Challenge Blocking**: Players cannot send challenges, accept challenges, or join matchmaking queues while they are tagged as "in-combat" by these plugins.
+* **Combat Bypass**: While inside an active duel match, combat loggers are prevented from tagging players, avoiding false penalties or combat tag notifications while in the arena.
+
+---
+
+## 📊 PlaceholderAPI Placeholders
+
+You can display player duels data in scoreboards, tab lists, chat formatting, or holograms using the following PlaceholderAPI keys:
+
+| Placeholder | Description |
+| :--- | :--- |
+| \`%modernduels_wins%\` | Total wins |
+| \`%modernduels_losses%\` | Total losses |
+| \`%modernduels_elo%\` | Current ELO rating |
+| \`%modernduels_kdr%\` | Kills/Deaths ratio |
+| \`%modernduels_kills%\` | Total kills inside duels |
+| \`%modernduels_deaths%\` | Total deaths inside duels |
+| \`%modernduels_games_played%\` | Total matches completed |
+| \`%modernduels_winrate%\` | Win rate percentage (formatted, e.g. \`50.0%\`) |
+`
+      },
+      "modernduels/reference/commands": {
+        "title": "📜 Commands & Permissions",
+        "category": "ModernDuels - Reference",
+        "content": `
+# 📜 Commands & Permissions Reference
+
+This reference outlines all registration details, syntax guidelines, and permissions for ModernDuels commands.
+
+---
+
+## 🎮 Player Commands
+
+### Kit Editor Commands
+* **Command**: \`/kit\`
+* **Aliases**: \`/kits\`, \`/kiteditor\`
+* **Subcommands**:
+  * \`/kit\` - Opens the main custom kits list menu.
+  * \`/kit share <kitName>\` - Generates a share code for a custom kit layout.
+  * \`/kit import <code>\` - Imports a kit layout using a share code.
+
+### Duel & Queue Commands
+* **Command**: \`/duel\`
+* **Aliases**: \`/d\`, \`/fight\`, \`/versus\`
+* **Usage**:
+  * \`/duel <player> [kit] [rounds] [bet]\` - Challenge a player to a duel.
+  * \`/duel accept <player>\` - Accept a pending challenge.
+  * \`/duel deny <player>\` - Deny a pending challenge.
+  * \`/duel spectate <player>\` - Spectate a player's active duel match.
+  * \`/duel leave\` - Forfeit your active duel or stop spectating.
+  * \`/duel stats [player]\` - View player duel stats in a graphical display GUI.
+  * \`/duel recap <matchId>\` - Review a post-match recap screen.
+  * \`/duel queue\` - Opens the public matchmaking queues menu.
+  * \`/duel settings\` - Configure personal settings (scoreboard, player visibility).
+
+### Party Commands
+* **Command**: \`/party\`
+* **Aliases**: \`/p\`, \`/team\`
+* **Usage**:
+  * \`/party create\` - Start a new party.
+  * \`/party invite <player>\` - Invite a player to join your party.
+  * \`/party accept <leader>\` - Accept an active party invite.
+  * \`/party leave\` - Leave your current party.
+  * \`/party kick <player>\` - Kick a member (Leader only).
+  * \`/party disband\` - Disband the party (Leader only).
+  * \`/party list\` - View party members.
+
+### Miscellaneous Commands
+* **Command**: \`/report <player>\`
+  * **Description**: File a report against a player for cheating or behavior issues during a duel.
+* **Command**: \`/leave\`
+  * **Description**: Shortcut to forfeit a match or exit spectator mode.
+
+---
+
+## 🛡️ Administrative Commands
+
+### Arena Setup Commands
+* **Command**: \`/arena\`
+* **Permission**: \`modernduels.admin\`
+* **Usage**:
+  * \`/arena create <name> <templateName>\` - Registers a new arena linked to a schematic template.
+  * \`/arena setup <name>\` - Load and teleport to a temporary setup world instance.
+  * \`/arena setspawn1 <name>\` - Set Player 1 spawn location at your standing spot (relative calculation).
+  * \`/arena setspawn2 <name>\` - Set Player 2 spawn location.
+  * \`/arena done\` - Save spawn locations, clean up setup world, and return to lobby.
+  * \`/arena list\` - List registered arenas and templates.
+  * \`/arena delete <name>\` - Delete an arena definition from \`arenas.yml\`.
+  * \`/arena manage\` - Open the visual Arena Management GUI.
+
+### Hologram Commands
+* **Command**: \`/hologram\`
+* **Aliases**: \`/holo\`, \`/holograms\`
+* **Permission**: \`modernduels.admin\`
+* **Usage**:
+  * \`/hologram create <name> <stat>\` - Spawns a leaderboard hologram showing stats (e.g. \`elo\`, \`wins\`).
+  * \`/hologram delete <name>\` - Removes a spawned hologram.
+  * \`/hologram list\` - Lists active hologram names and locations.
+
+### Staff Commands
+* **Command**: \`/duel reload\`
+  * **Permission**: \`modernduels.admin.reload\`
+  * **Description**: Hot-reloads all configurations (\`config.yml\` and \`scoreboard.yml\`) and tasks.
+* **Command**: \`/duel mod\`
+  * **Permission**: \`modernduels.staff\`
+  * **Description**: Toggles Moderation Mod Mode (Vanish, flight, staff hotbar items).
+* **Command**: \`/staffchat [message]\`
+  * **Aliases**: \`/sc\`, \`/s\`
+  * **Permission**: \`modernduels.staff\`
+  * **Description**: Toggle staff chat channel or send a staff message.
+
+---
+
+## 🔑 Permissions Index
+
+| Permission | Default | Description |
+| :--- | :--- | :--- |
+| \`modernduels.admin\` | \`op\` | Grants access to \`/arena\`, \`/hologram\`, reload, and bypass lobby protections. |
+| \`modernduels.admin.reload\` | \`op\` | Grants access to \`/duel reload\`. |
+| \`modernduels.staff\` | \`op\` | Grants access to Staff Mod Mode (\`/duel mod\`) and Staff Chat. |
+| \`modernduels.bypass.limit\` | \`op\` | Bypasses the max concurrent matches restriction. |
+| \`modernduels.priority.<level>\` | \`false\` | Assigns queue priority weight (replace \`<level>\` with a number). |
+| \`modernduels.kit.create\` | \`true\` | Allows creating custom kits. |
+| \`modernduels.kit.share\` | \`true\` | Allows exporting and importing share codes. |
+| \`modernduels.duel\` | \`true\` | Allows challenging players and accepting duels. |
+| \`modernduels.spectate\` | \`true\` | Allows spectating active games. |
+`
+      },
+      "modernduels/reference/configurations": {
+        "title": "⚙️ Configuration Files",
+        "category": "ModernDuels - Reference",
+        "content": `
+# ⚙️ Configuration Reference
+
+ModernDuels utilizes two configuration files to manage global rules and scoreboard/tab formatting: \`config.yml\` and \`scoreboard.yml\`.
+
+---
+
+## 📄 config.yml
+
+The main configuration file controls game settings, lobby locations, ranked rules, and database specifications.
+
+\`\`\`yaml
+# Global message prefix (MiniMessage formatting)
+prefix: "<gradient:#ff6b6b:#ffa07a><bold>ModernDuels</bold></gradient> <dark_gray>» <reset>"
+
+# Lobby spawn settings
+lobby:
+  world: "world"
+  spawn:
+    x: 0.5
+    y: 64.0
+    z: 0.5
+    yaw: 0.0
+    pitch: 0.0
+  heal-on-teleport: true
+  feed-on-teleport: true
+  extinguish-fire-on-teleport: true
+  clear-potion-effects-on-teleport: true
+
+# Duel gameplay rules
+duels:
+  countdown-seconds: 5               # Pre-match countdown
+  freeze-during-countdown: true      # Freeze player movement
+  max-duration: 300                  # Max duration in seconds (0 = infinite)
+  end-cleanup-delay-seconds: 3       # Delay before teleporting to lobby
+  allow-item-drops: false            # Prevent drop spamming
+  allow-block-breaking: true         # Can be disabled globally
+  allow-block-placing: true          # Can be disabled globally
+  request-expiry-seconds: 30         # Duel request timeout
+  max-simultaneous: 5                # Simultaneous match cap
+  pearl-cooldown:
+    enabled: true
+    duration-seconds: 15             # Ender pearl cooldown
+  blocked-commands-in-match:         # Anti-escape command blocklist
+    - "/spawn"
+    - "/tp"
+    - "/home"
+
+# Custom Kit Settings
+kits:
+  default-max-kits: 5
+  allow-sharing: true
+  share-code-expiry-seconds: 600
+  max-enchant-level: -1
+
+# Leaderboards Cycle Options
+leaderboard:
+  enabled: true
+  cycle-interval-seconds: 10         # Cycle rate between stats (wins, ELO, etc.)
+  stats: ["elo", "wins", "games", "kills", "deaths"]
+\`\`\`
+
+---
+
+## 📊 scoreboard.yml
+
+ModernDuels includes a built-in scoreboard sidebar and TAB header/footer system. It changes dynamically depending on whether a player is in the lobby, fighting, or spectating.
+
+Here is the default structure of the \`scoreboard.yml\` file:
+
+\`\`\`yaml
+# Scoreboard Sidebar Display Settings
+sidebar:
+  enabled: true
+  update-interval-ticks: 20          # Refreshes values every second
+
+  # Lobby Spawn Scoreboard
+  lobby:
+    title: "<gradient:#ff6b6b:#ffa07a><bold>ModernDuels</bold></gradient>"
+    lines:
+      - "<gray>Your Profile:</gray>"
+      - " 👤 Player: <white>%player_name%</white>"
+      - " 🏆 ELO: <yellow>%modernduels_elo%</yellow>"
+      - " ⚔️ Record: <green>%modernduels_wins%W</green> <gray>/</gray> <red>%modernduels_losses%L</red>"
+      - " 📊 Win Rate: <gold>%modernduels_winrate%</gold>"
+      - ""
+      - "<gray>Server Stats:</gray>"
+      - " 🎮 Playing: <white>%modernduels_playing%</white>"
+      - " 👥 In Lobby: <white>%modernduels_lobby%</white>"
+      - "─────────────────────────"
+      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+
+  # Active Match Scoreboard
+  match:
+    title: "<red><bold>⚔️ MATCH ⚔️</bold></red>"
+    lines:
+      - "<gray>Duel Status:</gray>"
+      - " 🗡️ Kit: <gold>%modernduels_kit%</gold>"
+      - " 🏁 Round: <white>%modernduels_round%/%modernduels_max_rounds%</white>"
+      - " ⏱️ Time: <white>%modernduels_match_time%s</white>"
+      - ""
+      - "<gray>Match Statistics:</gray>"
+      - " ❤️ Health: <red>%modernduels_health%❤</red>"
+      - " 🎯 Hits Landed: <white>%modernduels_hits%</white>"
+      - " 👥 Competitors: <gold>%modernduels_opponent%</gold>"
+      - "─────────────────────────"
+      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+
+  # Spectator Scoreboard
+  spectator:
+    title: "<gold><bold>👁️ SPECTATING 👁️</bold></gold>"
+    lines:
+      - "<gray>Match Info:</gray>"
+      - " 🗡️ Kit: <gold>%modernduels_kit%</gold>"
+      - " 🏁 Round: <white>%modernduels_round%/%modernduels_max_rounds%</white>"
+      - " ⏱️ Time: <white>%modernduels_match_time%s</white>"
+      - ""
+      - "<gray>Fighters:</gray>"
+      - " 🔴 %modernduels_p1%: <red>%modernduels_p1_health%❤</red>"
+      - " 🔵 %modernduels_p2%: <red>%modernduels_p2_health%❤</red>"
+      - "─────────────────────────"
+      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+
+# TAB Header/Footer Layout Settings
+tablist:
+  enabled: true
+  header: \"\\n<gradient:#ff6b6b:#ffa07a><bold>ModernDuels Network</bold></gradient>\\n<gray>Welcome to the PvP arena!</gray>\\n\"
+  footer: \"\\n<gray>Online Players: <white>%server_online%</white></gray>\\n<gradient:#ffa07a:#ff6b6b>play.modernsetups.net</gradient>\\n\"
+\`\`\`
+`
+      }
+    };
+
+    // Sidebar structure definition matching sidebars.js
+    const sidebarStructure = [
+      {
+        "type": "doc",
+        "id": "index",
+        "label": "🏠 Main Hub"
+      },
+      {
+        "type": "category",
+        "label": "⚔️ ModernDuels Wiki",
+        "items": [
+          { "id": "modernduels/intro", "label": "🚀 Introduction & Overview" },
+          { "id": "modernduels/getting-started/installation", "label": "💾 Installation & Storage" },
+          { "id": "modernduels/getting-started/arena-setup", "label": "🏟️ Arena Setup Guide" },
+          { "id": "modernduels/features/kit-editor", "label": "🗡️ Kit Editor & Customs" },
+          { "id": "modernduels/features/matchmaking", "label": "⚖️ Matchmaking & ELO" },
+          { "id": "modernduels/features/parties", "label": "👥 Parties & Team Duels" },
+          { "id": "modernduels/integration/hooks", "label": "🔌 Integrations & Hooks" },
+          { "id": "modernduels/reference/commands", "label": "📜 Commands & Permissions" },
+          { "id": "modernduels/reference/configurations", "label": "⚙️ Configuration Files" }
+        ]
+      }
+    ];
+
+    let currentDocId = "index";
+
+    // Setup Marked.js custom renderers
+    marked.setOptions({
+      highlight: function(code, lang) {
+        if (Prism.languages[lang]) {
+          return Prism.highlight(code, Prism.languages[lang], lang);
+        }
+        return code;
+      },
+      breaks: true,
+      gfm: true
+    });
+
+    // Theme Toggle Logic
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    const htmlElement = document.documentElement;
+
+    // Load theme setting
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    htmlElement.setAttribute("data-theme", savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = htmlElement.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      htmlElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === "dark") {
+        themeIcon.className = "fa-solid fa-sun";
+        document.getElementById("prism-theme").href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css";
+      } else {
+        themeIcon.className = "fa-solid fa-moon";
+        document.getElementById("prism-theme").href = "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css";
+      }
+    }
+
+    // Render Navigation Sidebar
+    function renderSidebar() {
+      const navMenu = document.getElementById("nav-menu");
+      navMenu.innerHTML = "";
+
+      sidebarStructure.forEach(node => {
+        if (node.type === "doc") {
+          const item = document.createElement("div");
+          item.className = `nav-item ${currentDocId === node.id ? 'active' : ''}`;
+          item.innerHTML = node.label;
+          item.addEventListener("click", () => selectDoc(node.id));
+          navMenu.appendChild(item);
+        } else if (node.type === "category") {
+          const categoryTitle = document.createElement("div");
+          categoryTitle.className = "nav-category";
+          categoryTitle.innerText = node.label;
+          navMenu.appendChild(categoryTitle);
+
+          node.items.forEach(child => {
+            const childItem = document.createElement("div");
+            childItem.className = `nav-item ${currentDocId === child.id ? 'active' : ''}`;
+            childItem.style.paddingLeft = "24px";
+            childItem.innerHTML = child.label;
+            childItem.addEventListener("click", () => selectDoc(child.id));
+            navMenu.appendChild(childItem);
+          });
+        }
+      });
+    }
+
+    // Select and Display Document
+    function selectDoc(docId) {
+      currentDocId = docId;
+      renderSidebar();
+      
+      const doc = docsData[docId];
+      if (!doc) return;
+
+      // Update Breadcrumbs
+      const breadcrumbCurrent = document.getElementById("breadcrumb-current");
+      breadcrumbCurrent.innerText = doc.title.replace(/[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, '').trim();
+
+      // Parse Markdown
+      const htmlContent = marked.parse(doc.content);
+      const markdownContentDiv = document.getElementById("markdown-content");
+      markdownContentDiv.innerHTML = htmlContent;
+
+      // Reset scroll position
+      document.getElementById("markdown-container").scrollTop = 0;
+
+      // Handle custom anchor link behavior in multi-doc format
+      markdownContentDiv.querySelectorAll("a").forEach(link => {
+        const href = link.getAttribute("href");
+        if (href && href.startsWith("#")) {
+          const targetId = href.substring(1);
+          if (docsData[targetId]) {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              selectDoc(targetId);
+            });
+          }
+        }
+      });
+
+      // Post-process code blocks to add copy buttons and Prism highlight
+      document.querySelectorAll(".markdown-content pre").forEach(pre => {
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "copy-btn";
+        copyBtn.innerText = "Copy";
+        copyBtn.addEventListener("click", () => {
+          const codeText = pre.querySelector("code").innerText;
+          navigator.clipboard.writeText(codeText).then(() => {
+            copyBtn.innerText = "Copied!";
+            copyBtn.style.backgroundColor = "#10b981";
+            setTimeout(() => {
+              copyBtn.innerText = "Copy";
+              copyBtn.style.backgroundColor = "";
+            }, 2000);
+          });
+        });
+        pre.appendChild(copyBtn);
+      });
+
+      // Highlight code blocks with Prism
+      Prism.highlightAllUnder(markdownContentDiv);
+
+      // Generate Table of Contents
+      generateTOC();
+    }
+
+    // Generate Table of Contents from h2/h3 elements
+    function generateTOC() {
+      const tocList = document.getElementById("toc-list");
+      tocList.innerHTML = "";
+
+      const headers = document.querySelectorAll(".markdown-content h2, .markdown-content h3");
+      if (headers.length === 0) {
+        document.querySelector(".toc-container").style.display = "none";
+        return;
+      }
+
+      if (window.innerWidth >= 1200) {
+        document.querySelector(".toc-container").style.display = "block";
+      }
+
+      headers.forEach((header, index) => {
+        const id = `heading-${index}`;
+        header.id = id;
+
+        const item = document.createElement("li");
+        item.className = "toc-item";
+
+        const link = document.createElement("a");
+        link.className = `toc-link ${header.tagName.toLowerCase()}`;
+        link.href = `#${id}`;
+        link.innerText = header.innerText;
+        
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          header.scrollIntoView({ behavior: "smooth" });
+        });
+
+        item.appendChild(link);
+        tocList.appendChild(item);
+      });
+    }
+
+    // Search Logic
+    const searchInput = document.getElementById("search-input");
+    const searchPortal = document.getElementById("search-portal");
+
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      if (!query) {
+        searchPortal.style.display = "none";
+        return;
+      }
+
+      const results = [];
+      Object.keys(docsData).forEach(id => {
+        const doc = docsData[id];
+        const contentIndex = doc.content.toLowerCase().indexOf(query);
+        const titleIndex = doc.title.toLowerCase().indexOf(query);
+
+        if (titleIndex !== -1 || contentIndex !== -1) {
+          let snippet = "";
+          if (contentIndex !== -1) {
+            const start = Math.max(0, contentIndex - 30);
+            const end = Math.min(doc.content.length, contentIndex + 60);
+            snippet = "..." + doc.content.substring(start, end).replace(/[\r\n#*`_-]+/g, " ") + "...";
+          } else {
+            snippet = "Matches in document title.";
+          }
+
+          results.push({
+            id: id,
+            title: doc.title,
+            snippet: snippet
+          });
+        }
+      });
+
+      renderSearchResults(results);
+    });
+
+    function renderSearchResults(results) {
+      searchPortal.innerHTML = "";
+      if (results.length === 0) {
+        searchPortal.innerHTML = '<div class="no-results">No documentation matches found</div>';
+      } else {
+        results.forEach(res => {
+          const item = document.createElement("div");
+          item.className = "search-result-item";
+          item.innerHTML = `
+            <div class="search-result-title">${res.title}</div>
+            <div class="search-result-snippet">${res.snippet}</div>
+          `;
+          item.addEventListener("click", () => {
+            selectDoc(res.id);
+            searchInput.value = "";
+            searchPortal.style.display = "none";
+          });
+          searchPortal.appendChild(item);
+        });
+      }
+      searchPortal.style.display = "block";
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".search-wrapper")) {
+        searchPortal.style.display = "none";
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 1200) {
+        document.querySelector(".toc-container").style.display = "none";
+      } else {
+        const headers = document.querySelectorAll(".markdown-content h2, .markdown-content h3");
+        if (headers.length > 0) {
+          document.querySelector(".toc-container").style.display = "block";
+        }
+      }
+    });
+
+    // Initial load
+    selectDoc("index");
+  </script>
+</body>
+</html>
