@@ -25,6 +25,7 @@ const sidebars = {
         'modernduels/features/kit-editor',
         'modernduels/features/matchmaking',
         'modernduels/features/parties',
+        'modernduels/features/leaderboards',
       ],
     },
     {
