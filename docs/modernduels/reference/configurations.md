@@ -30,6 +30,15 @@ lobby:
   feed-on-teleport: true
   extinguish-fire-on-teleport: true
   clear-potion-effects-on-teleport: true
+  protection:
+    enabled: true
+    block-modify: true
+    damage: true
+    hunger: true
+    item-drop: true
+    item-pickup: true
+    interact: true
+    entity-damage: true
 
 # Duel gameplay rules
 duels:
@@ -45,10 +54,12 @@ duels:
   pearl-cooldown:
     enabled: true
     duration-seconds: 15             # Ender pearl cooldown
-  blocked-commands-in-match:         # Anti-escape command blocklist
-    - "/spawn"
-    - "/tp"
-    - "/home"
+  allowed-commands-in-match:         # Allowed commands in match (all others blocked)
+    - "/duel"
+    - "/duels"
+    - "/leave"
+    - "/spectate"
+    - "/spec"
 
 # Custom Kit Settings
 kits:
