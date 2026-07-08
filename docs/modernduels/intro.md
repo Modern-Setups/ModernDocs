@@ -1,5 +1,4 @@
 ---
-slug: /
 title: 🚀 Introduction & Overview
 sidebar_position: 1
 ---

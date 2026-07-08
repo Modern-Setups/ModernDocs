@@ -242,7 +242,7 @@ sidebar:
       - " 🎮 Playing: <white>%modernduels_playing%</white>"
       - " 👥 In Lobby: <white>%modernduels_lobby%</white>"
       - "─────────────────────────"
-      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+      - "<gradient:#ff6b6b:#ffa07a>play.yourserver.com</gradient>"
 
   # ⚔️ Displayed during active duel matches
   match:
@@ -258,7 +258,7 @@ sidebar:
       - " 🎯 Hits Landed: <white>%modernduels_hits%</white>"
       - " 👥 Competitors: <gold>%modernduels_opponent%</gold>"
       - "─────────────────────────"
-      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+      - "<gradient:#ff6b6b:#ffa07a>play.yourserver.com</gradient>"
 
   # 👁️ Displayed when spectating a match
   spectator:
@@ -273,11 +273,11 @@ sidebar:
       - " 🔴 %modernduels_p1%: <red>%modernduels_p1_health%❤</red>"
       - " 🔵 %modernduels_p2%: <red>%modernduels_p2_health%❤</red>"
       - "─────────────────────────"
-      - "<gradient:#ff6b6b:#ffa07a>play.modernsetups.net</gradient>"
+      - "<gradient:#ff6b6b:#ffa07a>play.yourserver.com</gradient>"
 
 # TAB Header/Footer Layout Settings
 tablist:
   enabled: true
   header: "\n<gradient:#ff6b6b:#ffa07a><bold>ModernDuels Network</bold></gradient>\n<gray>Welcome to the PvP arena!</gray>\n"
-  footer: "\n<gray>Online Players: <white>%server_online%</white></gray>\n<gradient:#ffa07a:#ff6b6b>play.modernsetups.net</gradient>\n"
+  footer: "\n<gray>Online Players: <white>%server_online%</white></gray>\n<gradient:#ffa07a:#ff6b6b>play.yourserver.com</gradient>\n"
 ```

@@ -28,7 +28,6 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/Modern-Setups/ModernDocs/tree/main/',
           routeBasePath: '/', // Serve docs at site root
         },
         blog: false,
@@ -83,11 +82,7 @@ const config = {
             items: [
               {
                 label: 'Discord Support',
-                href: 'https://discord.gg/modernsetups',
-              },
-              {
-                label: 'Website',
-                href: 'https://modernsetups.net',
+                href: 'https://discord.gg/GShB3m6npW',
               },
             ],
           },
