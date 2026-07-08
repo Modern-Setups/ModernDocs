@@ -25,5 +25,4 @@ A high-fidelity standalone duels plugin replicating PvP Legacy's kit editor, dyn
 ## 💬 Support & Community
 
 Need help with configurations or licenses? Get in touch with us:
-* **Discord Community**: [Join our Discord](https://discord.gg/modernsetups)
-* **Official Website**: [modernsetups.net](https://modernsetups.net)
+* **Discord Community**: [Join our Discord](https://discord.gg/GShB3m6npW)
