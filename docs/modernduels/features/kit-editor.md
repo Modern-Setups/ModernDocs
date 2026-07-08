@@ -62,3 +62,20 @@ kits:
   share-code-expiry-seconds: 600   # Expiry time for generated share codes
   max-enchant-level: -1            # Maximum enchantment level (-1 for vanilla maximums)
 ```
+
+---
+
+## 🛡️ Default Preset Kits
+
+ModernDuels extracts 5 pre-configured default preset kits inside the `plugins/ModernDuels/presets/` folder on startup:
+* `nodebuff.json` (NoDebuff PvP kit)
+* `op.json` (OP PvP kit)
+* `uhc.json` (UHC PvP kit)
+* `classic.json` (Classic PvP kit)
+* `sumo.json` (Sumo PvP kit)
+
+### ⚙️ Disabling and Enabling Presets
+Server administrators can control which preset kits are active by managing files inside the `presets/` folder:
+* **To disable a default preset**: Rename the file by appending `.disabled` to the file extension (e.g. `nodebuff.json` -> `nodebuff.json.disabled`). The plugin will not load the kit on restart or reload, and will not recreate the default file either.
+* **To re-enable a preset**: Rename the file back to end in `.json` (e.g. `nodebuff.json.disabled` -> `nodebuff.json`).
+* **Custom presets**: Server owners can drop any custom-made kit JSON in this folder to make it a globally available preset kit.

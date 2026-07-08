@@ -63,6 +63,10 @@ duels:
 
 # Custom Kit Settings
 kits:
+  # Note: The plugin automatically creates 5 default preset kits in 'plugins/ModernDuels/presets/' on startup:
+  # (nodebuff.json, op.json, uhc.json, classic.json, sumo.json).
+  # Server owners can disable any default kit by renaming the file (e.g. 'nodebuff.json' -> 'nodebuff.json.disabled').
+  # To re-enable, rename the file back to end in '.json'.
   default-max-kits: 5
   allow-sharing: true
   share-code-expiry-seconds: 600
